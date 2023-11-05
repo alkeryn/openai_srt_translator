@@ -16,7 +16,9 @@ LANG = "french"
 MODEL = "gpt-3.5-turbo"
 VERBOSE = False
 
-prompt = f"""You are a professional translator.
+def makeprompt():
+    global prompt
+    prompt = f"""You are a professional translator.
 Translate the text below line by line into {LANG}, do not add any content on your own, and aside from translating, do not produce any other text, you will make the most accurate and authentic to the source translation possible.
 
 these are subtitles, meaning each elements are related and in order, you can use this context to make a better translation.
@@ -82,6 +84,7 @@ def main():
     BATCHSIZE = args.batch_size
     MODEL = args.model
     VERBOSE = args.verbose
+    makeprompt()
 
     if not files:
         print("No files found matching the pattern.")
