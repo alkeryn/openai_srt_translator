@@ -26,7 +26,7 @@ def translate_batch(batch):
     batch = json.dumps(batch, ensure_ascii=False)
 
     lendiff = 1
-    while lendiff: # TODO add try catch retry
+    while lendiff != 0: # TODO add try catch retry
         completion = openai.ChatCompletion.create(
             model=MODEL,
             messages=[
