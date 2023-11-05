@@ -51,7 +51,7 @@ def translate_file(subs):
             chunk[j].content = n
 
 def get_translated_filename(filepath):
-    root, ext = os.path.splitext(filepath)
+    root, ext = os.path.splitext(os.path.basename(filepath))
     return f"{root}_{LANG}{ext}"
 
 def main():
