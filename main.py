@@ -19,7 +19,8 @@ VERBOSE = False
 prompt = f"""You are a professional translator.
 Translate the text below line by line into {LANG}, do not add any content on your own, and aside from translating, do not produce any other text, you will make the most accurate and authentic to the source translation possible.
 
-you will reply with a json array that only contain the translation excluding the separation format and numbers."""
+these are subtitles, meaning each elements are related and in order, you can use this context to make a better translation.
+you will reply with a json array that only contain the translation."""
 
 def makebatch(chunk):
     return [x.content for x in chunk]
