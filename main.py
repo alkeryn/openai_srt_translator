@@ -14,7 +14,7 @@ if not api_key:
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 BATCHSIZE = 50 # later i may use a token conter instead but this is simpler for now
-LANG = "Hebrew"
+LANG = "french"
 MODEL = "gpt-3.5-turbo"
 VERBOSE = False
 
