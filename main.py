@@ -2,14 +2,16 @@
 
 import srt
 import argparse
-import openai
+from openai import OpenAI
 import json
 import os
+from dotenv import load_dotenv
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-if not openai.api_key:
+load_dotenv()
+api_key=os.getenv("OPENAI_API_KEY")
+if not api_key:
     exit("Error: OPENAI_API_KEY is not defined. Please set the environment variable and try again.")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 BATCHSIZE = 50 # later i may use a token conter instead but this is simpler for now
 LANG = "french"
@@ -21,8 +23,8 @@ def makeprompt():
     prompt = f"""You are a professional translator.
 Translate the text below line by line into {LANG}, do not add any content on your own, and aside from translating, do not produce any other text, you will make the most accurate and authentic to the source translation possible.
 
-these are subtitles, meaning each elements are related and in order, you can use this context to make a better translation.
-you will reply with a json array that only contain the translation."""
+these are subtitles, meaning all elements are related and in order, you can use this context to make a better translation.
+you will reply with a json array that only contains the translation."""
 
 def makebatch(chunk):
     return [x.content for x in chunk]
@@ -35,13 +37,11 @@ def translate_batch(batch):
     lendiff = 1
     while lendiff != 0: # TODO add max retry ?
         try:
-            completion = openai.ChatCompletion.create(
-                model=MODEL,
-                messages=[
-                    {"role": "system", "content": prompt},
-                    {"role": "user", "content": batch}
-                ]
-            )
+            completion = client.chat.completions.create(model=MODEL,
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": batch}
+            ])
             tbatch = json.loads(completion.choices[0].message.content)
         except Exception as e:
             if VERBOSE:

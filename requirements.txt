@@ -1,0 +1,3 @@
+srt==3.5.3
+openai==1.42.0
+python-dotenv==1.0.1
